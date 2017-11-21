@@ -7,10 +7,15 @@
  * file that was distributed with this source code.
  */
 
-#import "SDTestCase.h"
+#define EXP_SHORTHAND   // required by Expecta
+
+
+#import <XCTest/XCTest.h>
+#import <Expecta/Expecta.h>
+
 #import <SDWebImage/SDWebImagePrefetcher.h>
 
-@interface SDWebImagePrefetcherTests : SDTestCase
+@interface SDWebImagePrefetcherTests : XCTestCase
 
 @end
 
@@ -24,9 +29,13 @@
 - (void)test02PrefetchMultipleImages {
     XCTestExpectation *expectation = [self expectationWithDescription:@"Correct prefetch of multiple images"];
     
-    NSArray *imageURLs = @[@"http://via.placeholder.com/20x20.jpg",
-                           @"http://via.placeholder.com/30x30.jpg",
-                           @"http://via.placeholder.com/40x40.jpg"];
+    NSMutableArray *imageURLs = [NSMutableArray array];
+    
+    for (int i=40; i<43; i++) {
+        NSString *imageURLString = [NSString stringWithFormat:@"https://s3.amazonaws.com/fast-image-cache/demo-images/FICDDemoImage%03d.jpg", i];
+        NSURL *imageURL = [NSURL URLWithString:imageURLString];
+        [imageURLs addObject:imageURL];
+    }
     
     __block int numberOfPrefetched = 0;
     
@@ -42,7 +51,7 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectationsWithCommonTimeout];
+    [self waitForExpectationsWithTimeout:kAsyncTestTimeout handler:nil];
 }
 
 - (void)test03PrefetchWithEmptyArrayWillCallTheCompletionWithAllZeros {
@@ -54,7 +63,7 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectationsWithCommonTimeout];
+    [self waitForExpectationsWithTimeout:kAsyncTestTimeout handler:nil];
 }
 
 // TODO: test the prefetcher delegate works

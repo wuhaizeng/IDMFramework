@@ -248,19 +248,19 @@ typedef enum VP8StatusCode {
 // picture is only partially decoded, pending additional input.
 // Code example:
 //
-//   WebPInitDecBuffer(&output_buffer);
-//   output_buffer.colorspace = mode;
+//   WebPInitDecBuffer(&buffer);
+//   buffer.colorspace = mode;
 //   ...
-//   WebPIDecoder* idec = WebPINewDecoder(&output_buffer);
-//   while (additional_data_is_available) {
-//     // ... (get additional data in some new_data[] buffer)
+//   WebPIDecoder* idec = WebPINewDecoder(&buffer);
+//   while (has_more_data) {
+//     // ... (get additional data)
 //     status = WebPIAppend(idec, new_data, new_data_size);
-//     if (status != VP8_STATUS_OK && status != VP8_STATUS_SUSPENDED) {
-//       break;    // an error occurred.
+//     if (status != VP8_STATUS_SUSPENDED ||
+//       break;
 //     }
 //
 //     // The above call decodes the current available buffer.
-//     // Part of the image can now be refreshed by calling
+//     // Part of the image can now be refreshed by calling to
 //     // WebPIDecGetRGB()/WebPIDecGetYUVA() etc.
 //   }
 //   WebPIDelete(idec);

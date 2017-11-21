@@ -2,7 +2,7 @@
   "Mac" : [
     {
       "name" : "pop",
-      "hash" : "0eec8ef653c3a1bd729d9748297e6dd9a1a76ccbe91ae57ff02ffd6b404ef6e1"
+      "hash" : "54f2da35dd73fd69aa70c45e0623d6129f9eccd5d684a8dc3c4c2b641a5c23a6"
     }
   ],
   "watchOS" : [
@@ -11,14 +11,14 @@
   "tvOS" : [
     {
       "name" : "pop",
-      "hash" : "3b1792982bbfcf6adee6e4a76b38777f6009fbed65ff0c3670e62bd61209b10d"
+      "hash" : "90aa318f2769f1a5a3b325063305d27e4c19d440903780bd09d4d8202b1b11e8"
     }
   ],
   "commitish" : "1.0.10",
   "iOS" : [
     {
       "name" : "pop",
-      "hash" : "aa298a450d8c33d7bc3f7515ab0c4100d70c6c0a51d7ce687673b9026113f20a"
+      "hash" : "c622e4feea88ba02cd499c69a76bb943edb00f11af521ddc1ca5822ae4dfd05a"
     }
   ]
 }

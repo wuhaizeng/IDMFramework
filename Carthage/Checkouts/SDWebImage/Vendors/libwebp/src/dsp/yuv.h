@@ -36,7 +36,7 @@
 #define WEBP_DSP_YUV_H_
 
 #include "./dsp.h"
-#include "../dec/vp8_dec.h"
+#include "../dec/decode_vp8.h"
 
 #if defined(WEBP_EXPERIMENTAL_FEATURES)
 // Do NOT activate this feature for real compression. This is only experimental!

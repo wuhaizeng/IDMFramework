@@ -7,9 +7,12 @@
  */
 
 #import "MasterViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 #import "DetailViewController.h"
+#import <SDWebImage/FLAnimatedImageView.h>
 #import <SDWebImage/FLAnimatedImageView+WebCache.h>
 #import <SDWebImage/UIView+WebCache.h>
+
 
 @interface MyCustomTableViewCell : UITableViewCell
 
@@ -17,6 +20,7 @@
 @property (nonatomic, strong) FLAnimatedImageView *customImageView;
 
 @end
+
 
 @implementation MyCustomTableViewCell
 
@@ -35,13 +39,16 @@
 
 @end
 
-@interface MasterViewController ()
 
-@property (nonatomic, strong) NSMutableArray<NSString *> *objects;
 
+@interface MasterViewController () {
+    NSMutableArray *_objects;
+}
 @end
 
 @implementation MasterViewController
+
+@synthesize detailViewController = _detailViewController;
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -59,7 +66,7 @@
         [SDWebImageManager sharedManager].imageDownloader.username = @"httpwatch";
         [SDWebImageManager sharedManager].imageDownloader.password = @"httpwatch01";
         
-        self.objects = [NSMutableArray arrayWithObjects:
+        _objects = [NSMutableArray arrayWithObjects:
                     @"http://www.httpwatch.com/httpgallery/authentication/authenticatedimage/default.aspx?0.35786508303135633",     // requires HTTP auth, used to demo the NTLM auth
                     @"http://assets.sbnation.com/assets/2512203/dogflops.gif",
                     @"https://raw.githubusercontent.com/liyong03/YLGIFImage/master/YLGIFImageDemo/YLGIFImageDemo/joy.gif",
@@ -67,13 +74,11 @@
                     @"http://www.ioncannon.net/wp-content/uploads/2011/06/test9.webp",
                     @"http://littlesvr.ca/apng/images/SteamEngine.webp",
                     @"http://littlesvr.ca/apng/images/world-cup-2014-42.webp",
-                    @"https://isparta.github.io/compare-webp/image/gif_webp/webp/2.webp",
                     @"https://nr-platform.s3.amazonaws.com/uploads/platform/published_extension/branding_icon/275/AmazonS3.png",
-                    @"http://via.placeholder.com/200x200.jpg",
                     nil];
 
         for (int i=0; i<100; i++) {
-            [self.objects addObject:[NSString stringWithFormat:@"https://s3.amazonaws.com/fast-image-cache/demo-images/FICDDemoImage%03d.jpg", i]];
+            [_objects addObject:[NSString stringWithFormat:@"https://s3.amazonaws.com/fast-image-cache/demo-images/FICDDemoImage%03d.jpg", i]];
         }
 
     }
@@ -102,7 +107,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.objects.count;
+    return _objects.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -123,7 +128,7 @@
     [cell.customImageView sd_setIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
     cell.customTextLabel.text = [NSString stringWithFormat:@"Image #%ld", (long)indexPath.row];
-    [cell.customImageView sd_setImageWithURL:[NSURL URLWithString:self.objects[indexPath.row]]
+    [cell.customImageView sd_setImageWithURL:[NSURL URLWithString:_objects[indexPath.row]]
                             placeholderImage:placeholderImage
                                      options:indexPath.row == 0 ? SDWebImageRefreshCached : 0];
     return cell;
@@ -131,11 +136,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *largeImageURLString = [self.objects[indexPath.row] stringByReplacingOccurrencesOfString:@"small" withString:@"source"];
-    NSURL *largeImageURL = [NSURL URLWithString:largeImageURLString];
-    DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-    detailViewController.imageURL = largeImageURL;
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    if (!self.detailViewController)
+    {
+        self.detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+    }
+    NSString *largeImageURL = [_objects[indexPath.row] stringByReplacingOccurrencesOfString:@"small" withString:@"source"];
+    self.detailViewController.imageURL = [NSURL URLWithString:largeImageURL];
+    [self.navigationController pushViewController:self.detailViewController animated:YES];
 }
 
 @end

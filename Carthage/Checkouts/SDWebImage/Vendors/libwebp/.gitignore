@@ -22,7 +22,6 @@ Makefile.in
 examples/anim_diff
 examples/[cdv]webp
 examples/gif2webp
-examples/img2webp
 examples/webpmux
 src/webp/config.h*
 src/webp/stamp-h1
@@ -35,7 +34,3 @@ src/webp/stamp-h1
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
-.gradle
-/build
-extras/get_disto
-extras/webp_quality

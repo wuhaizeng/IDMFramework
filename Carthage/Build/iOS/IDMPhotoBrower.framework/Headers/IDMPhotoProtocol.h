@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "IDMPBConstants.h"
-
+#import <UIKit/UIKit.h>
 // Name of notification used when a photo has completed loading process
 // Used to notify browser display the image
 #define IDMPhoto_LOADING_DID_END_NOTIFICATION @"IDMPhoto_LOADING_DID_END_NOTIFICATION"
@@ -20,8 +20,6 @@
 //
 // You can see the IDMPhoto class for an example implementation of this protocol
 //
-#import <UIKit/UIKit.h>
-
 @protocol IDMPhoto <NSObject>
 
 @required
